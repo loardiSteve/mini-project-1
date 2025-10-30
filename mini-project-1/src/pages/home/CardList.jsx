@@ -4,7 +4,7 @@ import Card from "../../components/Card";
 function CardList() {
   return (
     <>
-      <h1 className="text-7xl font-bold mx-auto text-center pb-12">
+      <h1 className="text-xl font-bold mx-auto text-center pb-12">
         Koleksi Kartu Profesi
       </h1>
       <div className="flex justify-center gap-3 *:border *:border-black *:shadow-2xl *:p-4 *:rounded-2xl *:hover:bg-amber-50 *:transition-colors *:duration-300 *:ease-in">
@@ -28,6 +28,13 @@ function CardList() {
           image="https://via.placeholder.com/150"
           description="Menangani jaringan dan keamanan sistem.">
           <span>Active</span>
+        </Card>
+
+        <Card
+          title="backend Developer"
+          image="https://via.placeholder.com/150"
+          description="menangani server dan api">
+          <button>lihat lebih lanjut</button>
         </Card>
       </div>
     </>
