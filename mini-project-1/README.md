@@ -17,3 +17,17 @@ If you are developing a production application, we recommend using TypeScript wi
 
 what i learn:
 props, children, components, useState, eventHandling
+
+Parent menyimpan dua state:
+formData → menampung nilai sementara (input yang sedang diketik user).
+submittedData → menampung hasil akhir setelah form disubmit.
+
+Parent juga punya dua fungsi:
+handleChange → memperbarui formData setiap kali user mengetik.
+handleSubmit → menyalin isi formData ke submittedData.
+
+Kedua state dan fungsi itu dikirim ke Child lewat props.
+
+Child bertugas menjalankan dua hal:
+Memanggil handleChange saat terjadi onChange agar parent tahu nilai input terbaru.
+Memanggil handleSubmit saat form disubmit untuk menyimpan hasil akhir ke parent.
