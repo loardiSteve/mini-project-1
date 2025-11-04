@@ -9,6 +9,7 @@ const Form = () => {
   const [submittedData, setSubmittedData] = useState({
     name: "",
     job: "",
+    totalCharOfName: "",
   });
 
   const handleChange = (e) => {
@@ -25,7 +26,9 @@ const Form = () => {
     setSubmittedData({
       name: formData.name,
       job: formData.job,
+      length: formData.name.split("").length,
     });
+
     setFormData({
       name: "",
       job: "",
@@ -50,6 +53,7 @@ const Form = () => {
               placeholder="Masukkan Nama Anda"
               onChange={handleChange}
               value={formData.name}
+              required
               className="px-4 py-1.5 border border-amber-200 rounded-lg"
             />
           </div>
@@ -63,6 +67,7 @@ const Form = () => {
               placeholder="Masukkan Pekerjaan Anda"
               onChange={handleChange}
               value={formData.job}
+              required
               className="px-4 py-1.5 border border-amber-200 rounded-lg"
             />
           </div>
@@ -79,10 +84,19 @@ const Form = () => {
             <h2>{submittedData.name}</h2>
           </div>
           <div>
+            <h2 className="font-semibold">Jumlah Karakter Nama anda:</h2>
+            <h2>{submittedData.length}</h2>
+          </div>
+          <div>
             <h2 className="font-semibold">Pekerjaan Anda :</h2>
             <h2>{submittedData.job}</h2>
           </div>
         </div>
+        <button
+          onDoubleClick={() => alert("mantap")}
+          className="max-w-24 text-white bg-amber-600 rounded-lg px-3 py-1 hover:bg-rose-100 hover:text-black transition-colors duration-200 ease-in-out cursor-pointer font-semibold">
+          Klik dua kali
+        </button>
       </div>
     </div>
   );
