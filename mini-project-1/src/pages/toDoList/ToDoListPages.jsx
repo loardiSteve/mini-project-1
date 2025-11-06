@@ -1,11 +1,30 @@
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
 
-function ToDoList({ data, onToggle, onClick }) {
+function ToDoList({ data, onToggle, onClick, onEdit }) {
   // console.log("data di child :", data); //data berhasil diteruskan ke child
 
-  const handleDeleteTodo = (id) => {
-    onClick(id);
+  const [editingId, setEditingId] = useState(null);
+  const [draft, setDraft] = useState("");
+
+  const handleDeleteTodo = (id) => onClick(id);
+
+  const startEdit = (item) => {
+    setEditingId(item.id);
+    setDraft(item.todo);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setDraft("");
+  };
+
+  const saveEdit = () => {
+    const text = draft.trim();
+    if (!text) return;
+    onEdit(editingId, { todo: text }); // lifting state up
+    setEditingId(null);
+    setDraft("");
   };
 
   return (
@@ -13,16 +32,45 @@ function ToDoList({ data, onToggle, onClick }) {
       <h1 className="mb-4">List :</h1>
       <div className="flex flex-col gap-4">
         {data.map((item, idx) => (
-          <div key={idx} className="grid grid-cols-3">
-            <p>{item.todo}</p>
+          <div key={idx} className="grid grid-cols-4">
             <input
               type="checkbox"
               checked={item.status}
               onChange={() => onToggle(item.id)}
             />
-            <button type="click" onClick={() => handleDeleteTodo(item.id)}>
-              delete
-            </button>
+
+            {editingId === item.id ? (
+              <>
+                <input
+                  className="border rounded-md px-2 py-1 col-span-2"
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  autoFocus
+                />
+                <div className="flex gap-2">
+                  <button type="button" onClick={saveEdit}>
+                    save
+                  </button>
+                  <button type="button" onClick={cancelEdit}>
+                    cancel
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="col-span-2">{item.todo}</p>
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => startEdit(item)}>
+                    edit
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDeleteTodo(item.id)}>
+                    delete
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>
@@ -99,6 +147,12 @@ const TodoList = () => {
     setToDoList(toDoList.filter((todo) => todo.id !== id));
   };
 
+  const handleEditTodo = (id, nextFields) => {
+    setToDoList((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, ...nextFields } : item))
+    );
+  };
+
   return (
     <>
       <Navbar />
@@ -113,6 +167,7 @@ const TodoList = () => {
           data={toDoList}
           onToggle={handleToggle}
           onClick={handleDeleteTodo}
+          onEdit={handleEditTodo}
         />
       </div>
     </>
