@@ -4,8 +4,8 @@ import Navbar from "../../components/Navbar";
 
 const Order = () => {
   const [orders, setOrders] = useState([
-    { id: 1, name: "Nasi Goreng", quantity: 1, price: 10000 },
-    { id: 2, name: "Mie Goreng", quantity: 1, price: 12000 },
+    { id: 1, name: "Nasi Goreng", quantity: 0, price: 10000 },
+    { id: 2, name: "Mie Goreng", quantity: 0, price: 12000 },
   ]);
 
   const handleCount = (id, action) => {

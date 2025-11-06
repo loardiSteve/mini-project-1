@@ -1,0 +1,122 @@
+import { useState } from "react";
+import Navbar from "../../components/Navbar";
+
+function ToDoList({ data, onToggle, onClick }) {
+  // console.log("data di child :", data); //data berhasil diteruskan ke child
+
+  const handleDeleteTodo = (id) => {
+    onClick(id);
+  };
+
+  return (
+    <div className="max-w-md mx-auto p-8">
+      <h1 className="mb-4">List :</h1>
+      <div className="flex flex-col gap-4">
+        {data.map((item, idx) => (
+          <div key={idx} className="grid grid-cols-3">
+            <p>{item.todo}</p>
+            <input
+              type="checkbox"
+              checked={item.status}
+              onChange={() => onToggle(item.id)}
+            />
+            <button type="click" onClick={() => handleDeleteTodo(item.id)}>
+              delete
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function NewTodo({ onChange, onClick, data }) {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    onChange(name, value);
+  };
+
+  const handleAddTodo = () => {
+    onClick();
+  };
+
+  console.log(!data.todo);
+
+  return (
+    <div className="flex justify-between max-w-md mx-auto border border-red-50 bg-amber-50 rounded-md p-8 mb-10">
+      <input
+        name="todo"
+        type="text"
+        placeholder="masukkan kegiatan disini"
+        onChange={handleChange}
+        value={data.todo}
+        className="border border-amber-500 focus:border-amber-800  rounded-md px-3 py-1"
+      />
+      <button
+        type="click"
+        onClick={handleAddTodo}
+        disabled={!data.todo}
+        className="bg-amber-400 font-semibold px-3 py-1 cursor-pointer rounded-md hover:text-white hover:bg-amber-700 transition-colors duration-300 ease-in-out disabled:bg-gray-300 disabled:text-zinc-500 disabled:cursor-default">
+        Tambah
+      </button>
+    </div>
+  );
+}
+
+const TodoList = () => {
+  const [toDoList, setToDoList] = useState([]);
+
+  const [newTodo, setNewTodo] = useState({
+    id: null,
+    todo: "",
+    status: false,
+  });
+
+  const handleToggle = (id) => {
+    // console.log(idx);
+
+    setToDoList((prev) =>
+      prev.map((item) => {
+        if (item.id === id) {
+          // console.log(item.id === idx);
+          return { ...item, status: !item.status };
+        }
+        return item;
+      })
+    );
+  };
+
+  const handleChange = (name, value) => {
+    setNewTodo({ ...newTodo, id: Date.now(), [name]: value });
+  };
+
+  const handleAddTodo = () => {
+    setNewTodo({ ...newTodo, todo: "" });
+    setToDoList([...toDoList, newTodo]);
+  };
+
+  const handleDeleteTodo = (id) => {
+    setToDoList(toDoList.filter((todo) => todo.id !== id));
+  };
+
+  return (
+    <>
+      <Navbar />
+      <div>
+        <h1>Todo List</h1>
+        <NewTodo
+          onClick={handleAddTodo}
+          onChange={handleChange}
+          data={newTodo}
+        />
+        <ToDoList
+          data={toDoList}
+          onToggle={handleToggle}
+          onClick={handleDeleteTodo}
+        />
+      </div>
+    </>
+  );
+};
+
+export default TodoList;
