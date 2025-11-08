@@ -35,15 +35,13 @@ const Form = () => {
   });
 
   //Fungsi untuk mengupdate nilai di formData berdasarkan nilai yang diinput oleh user di komponen child
-  const handleChange = useCallback(
-    (field, value) => {
-      setFormData({
-        ...formData,
-        [field]: value,
-      });
-    },
-    [formData]
-  );
+  const handleChange = useCallback((field, value) => {
+    //gunakan data terbaru
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  }, []);
 
   //fungsi utk memindahkan nilai di state sementara ke state hasil akhir
   const handleSubmit = () => {
