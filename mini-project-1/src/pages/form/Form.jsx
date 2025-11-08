@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Navbar from "../../components/Navbar";
 import FormInput from "../../components/FormInput";
 
@@ -35,12 +35,15 @@ const Form = () => {
   });
 
   //Fungsi untuk mengupdate nilai di formData berdasarkan nilai yang diinput oleh user di komponen child
-  const handleChange = (field, value) => {
-    setFormData({
-      ...formData,
-      [field]: value,
-    });
-  };
+  const handleChange = useCallback(
+    (field, value) => {
+      setFormData({
+        ...formData,
+        [field]: value,
+      });
+    },
+    [formData]
+  );
 
   //fungsi utk memindahkan nilai di state sementara ke state hasil akhir
   const handleSubmit = () => {

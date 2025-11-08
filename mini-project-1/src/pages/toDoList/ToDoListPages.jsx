@@ -29,7 +29,7 @@ function ToDoList({ data, onToggle, onClick, onEdit }) {
 
   return (
     <div className="max-w-md mx-auto p-8">
-      <h1 className="mb-4">List :</h1>
+      <h1 className="mb-4 font-bold text-xl">List :</h1>
       <div className="flex flex-col gap-4">
         {data.map((item, idx) => (
           <div key={idx} className="grid grid-cols-4">
@@ -42,7 +42,7 @@ function ToDoList({ data, onToggle, onClick, onEdit }) {
             {editingId === item.id ? (
               <>
                 <input
-                  className="border rounded-md px-2 py-1 col-span-2"
+                  className="border rounded-md px-2 py-1 col-span-2 me-2"
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
                   autoFocus
@@ -58,7 +58,9 @@ function ToDoList({ data, onToggle, onClick, onEdit }) {
               </>
             ) : (
               <>
-                <p className="col-span-2">{item.todo}</p>
+                <p className="col-span-2 border border-amber-500 rounded-md px-3 py-1 me-2">
+                  {item.todo}
+                </p>
                 <div className="flex gap-2">
                   <button type="button" onClick={() => startEdit(item)}>
                     edit
@@ -88,10 +90,10 @@ function NewTodo({ onChange, onClick, data }) {
     onClick();
   };
 
-  console.log(!data.todo);
+  // console.log(!data.todo);
 
   return (
-    <div className="flex justify-between max-w-md mx-auto border border-red-50 bg-amber-50 rounded-md p-8 mb-10">
+    <div className="flex justify-between max-w-md mx-auto border border-red-50 bg-amber-50 rounded-md p-8 mb-2">
       <input
         name="todo"
         type="text"
@@ -154,10 +156,10 @@ const TodoList = () => {
   };
 
   return (
-    <>
+    <div className="max-w-5xl mx-auto">
       <Navbar />
       <div>
-        <h1>Todo List</h1>
+        <h1 className="font-bold text-2xl my-4 text-center">Todo List</h1>
         <NewTodo
           onClick={handleAddTodo}
           onChange={handleChange}
@@ -170,7 +172,7 @@ const TodoList = () => {
           onEdit={handleEditTodo}
         />
       </div>
-    </>
+    </div>
   );
 };
 
