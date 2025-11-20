@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Navbar from "../../components/Navbar";
 import FormInput from "../../components/FormInput";
 
@@ -22,6 +22,12 @@ function Result({ data }) {
 }
 
 const Form = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 3000);
+  }, []);
+
   // State untuk menampung nilai handleChange - sementara
   const [formData, setFormData] = useState({
     nama: "",
@@ -47,6 +53,12 @@ const Form = () => {
   const handleSubmit = () => {
     setSubmittedData(formData);
   };
+
+  //conditional rendering
+  if (loading)
+    return (
+      <p className="h-screen flex justify-center items-center">Lagi loading</p>
+    );
 
   return (
     <div className="max-w-5xl mx-auto">

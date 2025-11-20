@@ -30,52 +30,56 @@ function ToDoList({ data, onToggle, onClick, onEdit }) {
   return (
     <div className="max-w-md mx-auto p-8">
       <h1 className="mb-4 font-bold text-xl">List :</h1>
-      <div className="flex flex-col gap-4">
-        {data.map((item, idx) => (
-          <div key={idx} className="grid grid-cols-4">
-            <input
-              type="checkbox"
-              checked={item.status}
-              onChange={() => onToggle(item.id)}
-            />
+      {!data.length ? (
+        <p>belum ada tugas, tambahin dulu ya</p>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {data.map((item, idx) => (
+            <div key={idx} className="grid grid-cols-4">
+              <input
+                type="checkbox"
+                checked={item.status}
+                onChange={() => onToggle(item.id)}
+              />
 
-            {editingId === item.id ? (
-              <>
-                <input
-                  className="border rounded-md px-2 py-1 col-span-2 me-2"
-                  value={draft}
-                  onChange={(e) => setDraft(e.target.value)}
-                  autoFocus
-                />
-                <div className="flex gap-2">
-                  <button type="button" onClick={saveEdit}>
-                    save
-                  </button>
-                  <button type="button" onClick={cancelEdit}>
-                    cancel
-                  </button>
-                </div>
-              </>
-            ) : (
-              <>
-                <p className="col-span-2 border border-amber-500 rounded-md px-3 py-1 me-2">
-                  {item.todo}
-                </p>
-                <div className="flex gap-2">
-                  <button type="button" onClick={() => startEdit(item)}>
-                    edit
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleDeleteTodo(item.id)}>
-                    delete
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        ))}
-      </div>
+              {editingId === item.id ? (
+                <>
+                  <input
+                    className="border rounded-md px-2 py-1 col-span-2 me-2"
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    autoFocus
+                  />
+                  <div className="flex gap-2">
+                    <button type="button" onClick={saveEdit}>
+                      save
+                    </button>
+                    <button type="button" onClick={cancelEdit}>
+                      cancel
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="col-span-2 border border-amber-500 rounded-md px-3 py-1 me-2">
+                    {item.todo}
+                  </p>
+                  <div className="flex gap-2">
+                    <button type="button" onClick={() => startEdit(item)}>
+                      edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteTodo(item.id)}>
+                      delete
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -115,12 +119,12 @@ function NewTodo({ onChange, onClick, data }) {
 
 const TodoList = () => {
   const [toDoList, setToDoList] = useState([]);
-
-  const [newTodo, setNewTodo] = useState({
+  const initialNewToDo = {
     id: null,
     todo: "",
     status: false,
-  });
+  };
+  const [newTodo, setNewTodo] = useState(initialNewToDo);
 
   const handleToggle = (id) => {
     // console.log(idx);
@@ -137,12 +141,19 @@ const TodoList = () => {
   };
 
   const handleChange = (name, value) => {
-    setNewTodo({ ...newTodo, id: Date.now(), [name]: value });
+    setNewTodo((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleAddTodo = () => {
-    setNewTodo({ ...newTodo, todo: "" });
-    setToDoList([...toDoList, newTodo]);
+    const toDoToAdd = {
+      ...newTodo,
+      id: Date.now(),
+    };
+
+    setToDoList((prev) => [...prev, toDoToAdd]);
+
+    //reset input
+    setNewTodo(initialNewToDo);
   };
 
   const handleDeleteTodo = (id) => {
