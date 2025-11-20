@@ -31,3 +31,10 @@ Kedua state dan fungsi itu dikirim ke Child lewat props.
 Child bertugas menjalankan dua hal:
 Memanggil handleChange saat terjadi onChange agar parent tahu nilai input terbaru.
 Memanggil handleSubmit saat form disubmit untuk menyimpan hasil akhir ke parent.
+
+conditional rendering.
+ternary menggunakan simbol ?
+logical AND
+early return.
+
+in ToDoListPages update handleChange and handleAddTodo. func add id in newTodo move from handleChange to handleAddTodo. cleaner and predictable.
