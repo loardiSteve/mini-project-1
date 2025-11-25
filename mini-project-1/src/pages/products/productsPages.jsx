@@ -16,10 +16,6 @@ const Products = () => {
     setQuery(value);
   };
 
-  const handleSearch = () => {
-    setAllProducts(allProducts.filter((item) => item.name.includes(query)));
-  };
-
   useEffect(() => {
     const controller = new AbortController();
     controllerRef.current = controller;
