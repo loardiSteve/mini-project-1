@@ -61,7 +61,7 @@ const Products = () => {
     // schedule debounce
     debounceRef.current = setTimeout(() => {
       setDebouncedQuery(query);
-    }, 500);
+    }, 2000);
 
     return () => clearTimeout(debounceRef.current);
   }, [query]);
@@ -74,7 +74,9 @@ const Products = () => {
     );
   }, [allProducts, debouncedQuery]);
 
-  const handleSearchButton = () => setDebouncedQuery(query);
+  const handleSearchButton = () => {
+    setDebouncedQuery(query);
+  };
 
   if (loading) return <p>loading...</p>;
   if (error) return <p>error : {error}</p>;
@@ -112,24 +114,28 @@ const Search = ({ onChange, onSearch, inputUserValue }) => {
     onChange(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     onSearch(inputUserValue);
   };
 
   return (
-    <div className="flex justify-center gap-2 max-w-3xl mx-auto mt-5">
+    <form
+      onSubmit={handleSubmit}
+      className="flex justify-center gap-2 max-w-3xl mx-auto mt-5">
       <input
         type="text"
+        value={inputUserValue}
         placeholder="masukkan kata kunci"
         className="w-3/4 px-2 py-0.5 border border-amber-300 rounded-lg"
         onChange={handleChange}
       />
       <button
         className="px-3 py-0.5 rounded-2xl bg-amber-300 hover:bg-amber-700 cursor-pointer"
-        onClick={handleSubmit}>
+        type="submit">
         Search
       </button>
-    </div>
+    </form>
   );
 };
 
